@@ -1,5 +1,5 @@
 <div class="text-center">
-  <h1>Sign up</h1>
+  <h1>新規登録</h1>
 </div>
 
 <div class="row">
@@ -12,7 +12,7 @@
 
       <div class="form-group">
         
-<%= f.label :name, 'Name' %>
+<%= f.label :name, '名前' %>
 
         
 <%= f.text_field :name, class: 'form-control' %>
@@ -21,7 +21,7 @@
 
       <div class="form-group">
         
-<%= f.label :email, 'Email' %>
+<%= f.label :email, 'メールアドレス' %>
 
         
 <%= f.email_field :email, class: 'form-control' %>
@@ -30,7 +30,7 @@
 
       <div class="form-group">
         
-<%= f.label :password, 'Password' %>
+<%= f.label :password, 'パスワード' %>
 
         
 <%= f.password_field :password, class: 'form-control' %>
@@ -39,7 +39,7 @@
 
       <div class="form-group">
         
-<%= f.label :password_confirmation, 'Confirmation' %>
+<%= f.label :password_confirmation, 'パスワード(確認用)' %>
 
         
 <%= f.password_field :password_confirmation, class: 'form-control' %>
@@ -47,7 +47,7 @@
       </div>
 
       
-<%= f.submit 'Sign up', class: 'btn btn-primary btn-block' %>
+<%= f.submit '新規登録', class: 'btn btn-primary btn-block' %>
 
     
 <% end %>

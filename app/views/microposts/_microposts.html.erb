@@ -2,13 +2,12 @@
   <% microposts.each do |micropost| %>
     <% favorite = Favorite.find_by(micropost_id: micropost.id ,user_id: current_user.id) %>
     <li class="media mb-3">
-      <img class="mr-2 rounded" src="<%= gravatar_url(micropost.user, { size: 50 }) %>" alt="">
+      <img class="mr-2 rounded" src="<%= micropost.img %>" width=50 height=50 alt="">
       <div class="media-body">
         <div>
-          <%= link_to micropost.user.name, user_path(micropost.user) %> <span class="text-muted">posted at <%= micropost.created_at %></span>
-        </div>
-        <div>
-          <p class="mb-0"><%= micropost.content %></p>
+          <%= link_to micropost.user.name, user_path(micropost.user) %> <span class="text-muted">posted at <%= micropost.created_at %></span></br>
+          <%= micropost.name %></br>
+          <%= micropost.content %>
         </div>
         <div>
           <% if current_user == micropost.user %>
@@ -19,7 +18,7 @@
             <%= link_to "Like", favorites_path(micropost_id: micropost.id), method: :post, class: 'btn btn-danger btn-sm' %>
           <% end %>
         </div>
-      </div>
+      <div>
     </li>
   <% end %>
   <%= paginate microposts %>

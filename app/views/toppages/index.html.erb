@@ -1,22 +1,59 @@
 <% if logged_in? %>
   <div class="row">
-    <aside class="col-sm-4">
-      <%= form_with(model: @micropost, local: true) do |f| %>
-        <div class="form-group">
-          <%= f.text_area :content, class: 'form-control', rows: 5 %>
-        </div>
-        <%= f.submit 'Post', class: 'btn btn-primary btn-block' %>
-      <% end %>
-    </aside>
-    <div class="col-sm-8">
+    <div class="col-sm-6">
+      <div id='map' style="width:100%;height:300px"></div>
+    </div>
+    <div class="col-sm-6">
       <%= render 'microposts/microposts', microposts: @microposts %>
     </div>
   </div>
+<script>
+var markerdata = []
+<% @microposts.each do |micropost| %>
+var pushData = {
+  name: '<%= micropost.name %>',
+  content: '<%= micropost.content %>',
+  lat: <%= micropost.lat %>,
+  lng: <%= micropost.lng %>,
+}
+markerdata.push(pushData)
+<% end %>
+
+function initMap() {
+  var myOptions = {
+    zoom: 14,
+    center: new google.maps.LatLng(markerdata[0].lat, markerdata[0].lng),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById("map"), myOptions);
+  for (var i = 0; i < markerdata.length; i++) {
+    var name = markerdata[i].name;
+    var latlng = new google.maps.LatLng(markerdata[i].lat, markerdata[i].lng);
+    var content = markerdata[i].content;
+    createMarker(latlng, name, map, content)
+  };
+};
+
+function createMarker(latlng, name, map, content) {
+  var infoWindow = new google.maps.InfoWindow();
+  var marker = new google.maps.Marker({
+    position: latlng,
+    map: map
+  });
+  google.maps.event.addListener(marker, 'click', function () {
+    infoWindow.setContent(`店名:${name}</br>${content}`);
+    infoWindow.open(map, marker);
+    map.panTo(latlng);
+  });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClqBRd2KHlo1uwVq7f_pUksMAPGsCidDU&callback=initMap"></script>
 <% else %>
-  <div class="center jumbotron">
-    <div class="text-center">
-      <h1>Welcome to the Microposts</h1>
-      <%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
+　<div class="center jumbotron">
+　　<div class="text-center">
+　　　<h1>上野駅周辺 おすすめ居酒屋・レストラン</h1>
+    　<%= link_to '新規登録', signup_path, class: 'btn btn-lg btn-primary' %>
+    　<%= link_to 'ログイン', login_path, class: 'btn btn-lg btn-primary' %>
     </div>
-  </div>
+　</div>
 <% end %>

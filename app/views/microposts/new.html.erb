@@ -1,0 +1,37 @@
+<% if logged_in? %>
+ <style>.head-title {width:100%;background:#87ceeb;color:#fff;text-indent:8px;font-weight:700;line-height:180%}</style>
+  <div class="row">
+    <aside class="col-sm-6">
+      <body onload="initMap()">
+        <div class="head-title">住所から座標を検索</div> <input id="address" type="textbox" value="" placeholder="店名を入力"> <input type="button" value="検索" onclick=codeAddress()>
+        <div id="map" style="width:100%;height:300px"></div>
+      </body>
+    </aside>
+    <aside class="col-sm-6">
+      <%= form_with(model: @micropost, local: true) do |f| %>
+        <div class="form-group">
+         <%= f.label :name, '名前' %>
+         <%= f.text_area :name, class: 'form-control class_name', rows: 1 %>
+         <%= f.label :lat, '緯度' %>
+         <%= f.text_area :lat, class: 'form-control class_ido', rows: 1 %>
+         <%= f.label :lng, '経度' %>
+         <%= f.text_area :lng, class: 'form-control class_keido', rows: 1 %>
+         <%= f.label :context, 'お店の詳細' %>
+         <%= f.text_area :content, class: 'form-control', rows: 5 %>
+         <%= f.label "参考画像をアップロード" %><br>
+         <%= f.file_field :img %>
+        </div>
+        <%= f.submit '保存', class: 'btn btn-primary btn-block' %>
+      <% end %>
+    </aside>
+  </div>
+  <script src="app/assets/javascripts/geocode.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClqBRd2KHlo1uwVq7f_pUksMAPGsCidDU&callback=initMap"></script>
+  <% else %>
+    <div class="center jumbotron">
+      <div class="text-center">
+        <h1>Welcome to the Microposts</h1>
+        <%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
+      </div>
+    </div>
+<% end %>
