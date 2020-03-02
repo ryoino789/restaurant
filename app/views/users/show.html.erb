@@ -4,58 +4,58 @@
       <div id='map' style="width:100%;height:300px"></div>
     </div>
     <script>
-   var Datalist=[];
-<% @microposts.each do |micropost| %>
-  var pushData = {
+    var Datalist=[];
+     <% @microposts.each do |micropost| %>
+      var pushData = {
         name: '<%= micropost.name %>',
         content: '<%= micropost.content %>',
         lat: <%= micropost.lat %>,
         lng: <%= micropost.lng %>,
         img: <%= micropost.img %>,
-    };
-  Datalist.push(pushData);
-<% end %>
-function initMap() {
-var myOptions = {
-zoom: 14,
-center: new google.maps.LatLng(markerdata[0].lat, markerdata[0].lng),
-mapTypeId: google.maps.MapTypeId.ROADMAP
-};
-var map = new google.maps.Map(document.getElementById("map"),myOptions);
+      };
+      Datalist.push(pushData);
+     <% end %>
+     
+     function initMap() {
+      var myOptions = {
+      zoom: 14,
+      center: new google.maps.LatLng(markerdata[0].lat, markerdata[0].lng),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById("map"),myOptions);
 
-for (var i = 0; i < markerdata.length; i++) {
-var name = markerdata[i].name;
-var latlng = new google.maps.LatLng(markerdata[i].lat,markerdata[i].lng);
-var content = markerdata[i].content;
-createMarker(latlng,name,map,content)
-};
-};
-function createMarker(latlng,name,map,content)
-{
-var infoWindow = new google.maps.InfoWindow();
-var marker = new google.maps.Marker({position: latlng,map: map});
-google.maps.event.addListener(marker, 'click', function() {
-infoWindow.setContent(
-  `店名:${name}</br>${content}</br>`);
-infoWindow.open(map,marker);
-map.panTo(latlng); 
-});
-} 
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClqBRd2KHlo1uwVq7f_pUksMAPGsCidDU&callback=initMap"></script>
-
+      for (var i = 0; i < markerdata.length; i++) {
+       var name = markerdata[i].name;
+       var latlng = new google.maps.LatLng(markerdata[i].lat,markerdata[i].lng);
+       var content = markerdata[i].content;
+       createMarker(latlng,name,map,content)
+       };
+      };
+      
+      function createMarker(latlng,name,map,content){
+       var infoWindow = new google.maps.InfoWindow();
+       var marker = new google.maps.Marker({position: latlng,map: map});
+       google.maps.event.addListener(marker, 'click', function() {
+       infoWindow.setContent(
+        `店名:${name}</br>${content}</br>`);
+        infoWindow.open(map,marker);
+        map.panTo(latlng); 
+       });
+     } ;
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClqBRd2KHlo1uwVq7f_pUksMAPGsCidDU&callback=initMap"></script>
   <% else %>
-  <aside class="col-sm-4">
-    <div class="card">
+    <aside class="col-sm-4">
+     <div class="card">
       <div class="card-header">
         <h3 class="card-title"><%= @user.name %></h3>
       </div>
       <div class="card-body">
-        <img class="rounded img-fluid" src="<%= gravatar_url(@user, { size: 500 }) %>" alt="">
+       <img class="rounded img-fluid" src="<%= gravatar_url(@user, { size: 500 }) %>" alt="">
       </div>
-    </div>
-    <%= render 'relationships/follow_button', user: @user %>
-  </aside>
+     </div>
+     <%= render 'relationships/follow_button', user: @user %>
+    </aside>
   <% end %>
   <div class="col-sm-8">
     <ul class="nav nav-tabs nav-justified mb-3">
